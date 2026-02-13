@@ -1,5 +1,8 @@
 import streamlit as st
 from datetime import date
+from openai import OpenAI
+
+client = OpenAI()
 
 st.title("CycleWise 🌸")
 
@@ -26,11 +29,44 @@ if irregular:
         options=["Low", "Moderate", "High"]
     )
 
+def get_ai_suggestions(phase, energy_level, irregular):
+    context = (
+        f"The user is in the {phase}. "
+        f"Their energy and focus level is {energy_level}. "
+    )
+
+    if irregular:
+        context += (
+            "Their cycle is irregular, so avoid hormonal certainty. "
+            "Base suggestions primarily on how they feel today. "
+        )
+    else:
+        context += (
+            "This is a regular cycle estimate based on typical patterns. "
+        )
+
+    prompt = (
+        context +
+        "Give:\n"
+        "1. One productivity suggestion\n"
+        "2. One self-care suggestion\n"
+        "3. One gentle exercise suggestion\n\n"
+        "Keep it supportive, non-medical, and concise."
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    return response.choices[0].message.content
+
+
 if st.button("See where I am in my cycle ✨"):
 
     days_since = (today - last_period).days
 
-    # ---------------- IRREGULAR CYCLE ----------------
+    # -------- IRREGULAR --------
     if irregular:
         if days_since <= 5:
             phase = "Menstrual Phase"
@@ -41,36 +77,27 @@ if st.button("See where I am in my cycle ✨"):
         else:
             phase = "Luteal Phase"
 
-        # Suggestions based on USER energy
-        if user_state == "Low":
-            productivity = "Do only essential tasks; avoid heavy decision-making."
-            self_care = "Rest, hydrate well, and allow slower pacing."
-            exercise = "Gentle stretching or short walks."
-
-        elif user_state == "Moderate":
-            productivity = "Focus on steady progress and finishing small tasks."
-            self_care = "Maintain routines and take short breaks."
-            exercise = "Light workouts, yoga, or cycling."
-
-        else:  # High
-            productivity = "Tackle important or creative tasks while energy is high."
-            self_care = "Channel energy but avoid burnout."
-            exercise = "Strength training or higher-intensity movement."
+        energy_level = user_state
 
         st.subheader(phase)
         st.write(f"~ Day {days_since}")
-        st.write(f"You’re feeling **{user_state.lower()} energy & focus** today.")
+        st.write(f"You’re feeling **{energy_level.lower()} energy & focus** today.")
+
+        with st.spinner("Generating personalized suggestions..."):
+            suggestions = get_ai_suggestions(
+                phase,
+                energy_level,
+                irregular=True
+            )
 
         st.markdown("### Today’s Suggestions")
-        st.write(f"**Productivity:** {productivity}")
-        st.write(f"**Self-care:** {self_care}")
-        st.write(f"**Exercise:** {exercise}")
+        st.write(suggestions)
 
         st.caption(
-            "For irregular cycles, suggestions are guided by how you feel today rather than fixed phase predictions."
+            "For irregular cycles, suggestions are guided by how you feel today."
         )
 
-    # ---------------- REGULAR CYCLE ----------------
+    # -------- REGULAR --------
     else:
         current_day = (days_since % cycle_length) + 1
         ovulation_day = cycle_length - 14
@@ -78,44 +105,31 @@ if st.button("See where I am in my cycle ✨"):
 
         if current_day <= 5:
             phase = "Menstrual Phase"
-            state = "Low energy • inward focus"
-            productivity = "Rest, reflect, and plan lightly."
-            self_care = "Prioritize sleep, warmth, and hydration."
-            exercise = "Gentle stretching or walking."
-
+            energy_level = "Low"
         elif current_day < ovulation_day - 1:
             phase = "Follicular Phase"
-            state = "Rising energy • creative focus"
-            productivity = "Start new projects and brainstorm ideas."
-            self_care = "Establish routines and nourish your body."
-            exercise = "Moderate workouts, yoga, or dance."
-
+            energy_level = "Moderate"
         elif current_day in ovulation_window:
             phase = "Ovulation Phase"
-            state = "High energy • confident focus"
-            productivity = "Present ideas, collaborate, and take on challenges."
-            self_care = "Stay hydrated and pace yourself."
-            exercise = "Strength training or high-energy workouts."
-
+            energy_level = "High"
         else:
             phase = "Luteal Phase"
-            state = "Moderate to low energy • detail focus"
-            productivity = "Finish tasks and focus on organization."
-            self_care = "Create calm routines and reduce overstimulation."
-            exercise = "Low-impact workouts or walking."
+            energy_level = "Moderate"
 
         st.subheader(phase)
         st.write(f"Day {current_day}")
-        st.write(state)
+        st.write(f"Predicted **{energy_level.lower()} energy & focus**")
+
+        with st.spinner("Generating personalized suggestions..."):
+            suggestions = get_ai_suggestions(
+                phase,
+                energy_level,
+                irregular=False
+            )
 
         st.markdown("### Today’s Suggestions")
-        st.write(f"**Productivity:** {productivity}")
-        st.write(f"**Self-care:** {self_care}")
-        st.write(f"**Exercise:** {exercise}")
+        st.write(suggestions)
 
         st.caption("Suggestions are based on typical cycle patterns.")
 
     st.caption("This is not medical advice.")
-
-
-
