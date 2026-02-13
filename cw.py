@@ -43,7 +43,8 @@ if st.button("See where I am in my cycle ✨"):
         state = "Moderate to low energy • focused • detail-oriented"
 
     st.subheader(f"{phase}")
-    st.write(f"Cycle Day: {current_day}")
-    st.write(f"Current State: {state}")
+    st.write(f"Day {current_day}")
+    st.write(state)
+
 
     st.caption("This is an estimate based on typical cycle patterns and is not medical advice.")
