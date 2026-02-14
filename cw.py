@@ -4,7 +4,161 @@ from openai import OpenAI
 
 client = OpenAI()
 
-st.title("CycleWise 🌸")
+st.set_page_config(
+    page_title="CycleWise",
+    page_icon="🌸",
+    layout="centered"
+)
+
+# ---------------- STYLING ----------------
+st.markdown("""
+<style>
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* Reduce global padding */
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* App background */
+.stApp {
+    background-color: #f6f4f2;
+    font-family: 'Inter', sans-serif;
+}
+
+/* HERO TITLE */
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.2rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #2a1f24;
+    margin-bottom: 0.2rem;
+}
+
+/* Section headers */
+h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: #4b3b6e;
+    font-weight: 600;
+}
+
+/* Body text */
+p, li, span, div {
+    color: #2b2b2b;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #e6b7c1;
+    color: #2a1f24;
+    border-radius: 18px;
+    padding: 0.75em 1.6em;
+    font-weight: 600;
+    border: none;
+    font-size: 1.05rem;
+}
+
+.stButton > button:hover {
+    background-color: #d59aa8;
+}
+
+/* Cards */
+.card {
+    background-color: #ffffff;
+    padding: 1.4em;
+    border-radius: 18px;
+    margin-bottom: 1em;
+    border: 1px solid #e4dfdc;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+}
+
+/* ---------- DATE PICKER FIX ---------- */
+
+/* Calendar container */
+.react-datepicker {
+    background-color: #ffffff !important;
+    border: 1px solid #e4dfdc !important;
+    border-radius: 12px;
+}
+
+/* Header (month + arrows) */
+.react-datepicker__header {
+    background-color: #faf7f5 !important;
+    border-bottom: 1px solid #e4dfdc;
+}
+
+/* Month label */
+.react-datepicker__current-month {
+    color: #2a1f24 !important;
+    font-weight: 600;
+}
+
+/* Weekday names */
+.react-datepicker__day-name {
+    color: #6b6b6b !important;
+    font-weight: 500;
+}
+
+/* Day numbers */
+.react-datepicker__day {
+    color: #2a1f24 !important;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* Hover */
+.react-datepicker__day:hover {
+    background-color: #f3d6dc !important;
+}
+
+/* Selected day */
+.react-datepicker__day--selected {
+    background-color: #e6b7c1 !important;
+    color: #2a1f24 !important;
+    font-weight: 700;
+}
+
+/* Today */
+.react-datepicker__day--today {
+    border: 1px solid #e6b7c1;
+}
+
+/* Input field */
+input[type="date"] {
+    color: #2a1f24 !important;
+    font-weight: 500;
+}
+
+/* Caption */
+.caption {
+    color: #555555;
+    font-size: 0.9em;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------- HERO ----------------
+st.markdown("""
+<div style="text-align: center; margin-top: 1rem; margin-bottom: 1.5rem;">
+    <h1>CycleWise</h1>
+    <p style="
+        font-family: 'Inter', sans-serif;
+        font-size: 1.1rem;
+        color: #5f5558;
+        margin-top: 0;
+        margin-bottom: 0;
+    ">
+        A gentle guide to your energy, focus, and flow 🌸
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------- FALLBACK CONTENT ----------------
 FALLBACK_SUGGESTIONS = {
@@ -13,19 +167,19 @@ FALLBACK_SUGGESTIONS = {
 *Rest • Recover • Go easy*
 
 🧘‍♀️ **Body & Energy**  
-Energy is usually low during this phase. Rest when you can, stay warm, and choose gentle movement like stretching or short walks instead of intense workouts.
+Energy is usually low. Choose rest and gentle movement.
 
 🍽 **Food & Hydration**  
-Go for warm, nourishing meals and drink plenty of water. Iron-rich foods can help support energy levels.
+Warm meals and iron-rich foods can help.
 
 🧠 **Mood & Mental Health**  
-Feeling more emotional or sensitive is common. Give yourself permission to slow down and avoid unnecessary stress.
+Slowing down is okay. Reduce stress where possible.
 
 📚 **Study & Productivity**  
-Stick to light tasks like revising notes, organizing, or planning. This isn’t the best time for heavy deadlines or intense focus.
+Focus on light tasks and organization.
 
 💆‍♀️ **Self-Care**  
-Prioritize sleep, comfort, and simple self-care. Doing the bare minimum is enough right now.
+Sleep, comfort, and simplicity.
 """,
 
     "Follicular Phase": """
@@ -33,19 +187,19 @@ Prioritize sleep, comfort, and simple self-care. Doing the bare minimum is enoug
 *Fresh energy • New starts*
 
 🧘‍♀️ **Body & Energy**  
-Your energy starts to return. This is a good phase for moderate workouts, trying new activities, and building consistent routines.
+Energy returns — good time for moderate activity.
 
 🍽 **Food & Hydration**  
-Balanced meals with fruits, vegetables, and protein support your rising energy. Stay hydrated to keep focus steady.
+Balanced meals support focus.
 
 🧠 **Mood & Mental Health**  
-You may feel more positive, curious, and motivated. Use this mental clarity to explore ideas and set goals.
+Curiosity and motivation rise.
 
 📚 **Study & Productivity**  
-Great phase for starting assignments, learning new topics, and planning your schedule. Focus comes more naturally now.
+Great for starting new tasks.
 
 💆‍♀️ **Self-Care**  
-Try building habits that felt hard earlier — skincare, movement, or journaling are easier to stick to in this phase.
+Build healthy habits.
 """,
 
     "Ovulation Phase": """
@@ -53,19 +207,19 @@ Try building habits that felt hard earlier — skincare, movement, or journaling
 *Peak confidence • Social energy*
 
 🧘‍♀️ **Body & Energy**  
-Energy and stamina are usually high. You can handle more intense workouts, but remember to rest and hydrate.
+High stamina — remember hydration.
 
 🍽 **Food & Hydration**  
-Eat regular, nutritious meals and drink enough water to sustain high activity levels.
+Regular meals sustain performance.
 
 🧠 **Mood & Mental Health**  
-Confidence and communication skills peak here. You may feel more outgoing and expressive.
+Confidence peaks.
 
 📚 **Study & Productivity**  
-Best time for presentations, group projects, discussions, and exams that need focus and confidence.
+Ideal for presentations and collaboration.
 
 💆‍♀️ **Self-Care**  
-Balance productivity with downtime to avoid feeling drained once this phase passes.
+Balance effort with rest.
 """,
 
     "Luteal Phase": """
@@ -73,43 +227,40 @@ Balance productivity with downtime to avoid feeling drained once this phase pass
 *Slow down • Focus inward*
 
 🧘‍♀️ **Body & Energy**  
-Energy may drop and your body may feel heavier or more tired. Low-impact movement like yoga or walking works best.
+Energy may dip — gentle movement helps.
 
 🍽 **Food & Hydration**  
-Cravings and bloating are common. Choose warm, comforting foods and stay hydrated.
+Comfort foods and hydration support balance.
 
 🧠 **Mood & Mental Health**  
-You might feel more irritable or sensitive. Reduce overstimulation and give yourself more quiet time.
+Reduce overstimulation.
 
 📚 **Study & Productivity**  
-Focus on revision, finishing assignments, and structured solo work rather than starting new tasks.
+Finish tasks rather than start new ones.
 
 💆‍♀️ **Self-Care**  
-Extra sleep, reduced screen time, and gentle routines can make this phase easier to manage.
+Prioritize rest and calm.
 """
 }
 
-# ---------------- AI + FALLBACK HANDLER ----------------
+# ---------------- AI + FALLBACK ----------------
 def get_suggestions(phase, energy_level, irregular):
     try:
         prompt = f"""
 You are a supportive wellbeing assistant.
 
-The user is in the {phase}.
-Their energy & focus level is {energy_level}.
-{"Their cycle is irregular, so rely more on their current energy." if irregular else "This is based on a regular cycle estimate."}
+Phase: {phase}
+Energy level: {energy_level}
+{"Cycle is irregular — rely on energy level." if irregular else "Regular cycle estimate."}
 
-Write guidance using EXACTLY these sections and emojis:
+Use these sections:
+🧘‍♀️ Body & Energy
+🍽 Food & Hydration
+🧠 Mood & Mental Health
+📚 Study & Productivity
+💆‍♀️ Self-Care
 
-🧘‍♀️ Body & Energy  
-🍽 Food & Hydration  
-🧠 Mood & Mental Health  
-📚 Study & Productivity  
-💆‍♀️ Self-Care  
-
-Tone: warm, non-medical, reassuring.
-Avoid diagnoses or medical advice.
-Keep it practical and student-friendly.
+Tone: warm, supportive, non-medical.
 """
 
         response = client.chat.completions.create(
@@ -122,76 +273,65 @@ Keep it practical and student-friendly.
     except Exception:
         return FALLBACK_SUGGESTIONS[phase], False
 
+# ---------------- INPUT CARD ----------------
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.subheader("Your cycle details")
 
-# ---------------- USER INPUT ----------------
 irregular = st.checkbox("My cycle is irregular")
 
-cycle_length = None
 if not irregular:
-    cycle_length = st.number_input(
-        "Cycle length (days)", min_value=20, max_value=40, value=28
-    )
+    cycle_length = st.number_input("Cycle length (days)", 20, 40, 28)
+else:
+    cycle_length = None
 
-last_period = st.date_input("First day of last period")
+last_period = st.date_input("First day of your last period")
+
+submit = st.button("Check in with my cycle 💗")
+
+st.markdown('</div>', unsafe_allow_html=True)
+
 today = date.today()
 
-user_state = None
-if irregular:
-    st.subheader("How do you feel today?")
-    user_state = st.select_slider(
-        "Energy & focus level", options=["Low", "Moderate", "High"]
-    )
-
 # ---------------- MAIN LOGIC ----------------
-if st.button("See where I am in my cycle ✨"):
+if submit:
 
     days_since = (today - last_period).days
 
     if irregular:
-        if days_since <= 5:
-            phase = "Menstrual Phase"
-        elif days_since <= 13:
-            phase = "Follicular Phase"
-        elif days_since <= 17:
-            phase = "Ovulation Phase"
-        else:
-            phase = "Luteal Phase"
-
-        energy_level = user_state
-        st.subheader(phase)
-        st.write(f"~ Day {days_since}")
-
+        phase = (
+            "Menstrual Phase" if days_since <= 5 else
+            "Follicular Phase" if days_since <= 13 else
+            "Ovulation Phase" if days_since <= 17 else
+            "Luteal Phase"
+        )
+        energy_level = "Moderate"
+        day_label = f"~ Day {days_since}"
     else:
         current_day = (days_since % cycle_length) + 1
         ovulation_day = cycle_length - 14
-        ovulation_window = range(ovulation_day - 1, ovulation_day + 2)
-
-        if current_day <= 5:
-            phase = "Menstrual Phase"
-            energy_level = "Low"
-        elif current_day < ovulation_day - 1:
-            phase = "Follicular Phase"
-            energy_level = "Moderate"
-        elif current_day in ovulation_window:
-            phase = "Ovulation Phase"
-            energy_level = "High"
-        else:
-            phase = "Luteal Phase"
-            energy_level = "Moderate"
-
-        st.subheader(phase)
-        st.write(f"Day {current_day}")
-
-    with st.spinner("Generating guidance..."):
-        suggestions, ai_used = get_suggestions(
-            phase, energy_level, irregular
+        phase = (
+            "Menstrual Phase" if current_day <= 5 else
+            "Follicular Phase" if current_day < ovulation_day - 1 else
+            "Ovulation Phase" if current_day in range(ovulation_day - 1, ovulation_day + 2)
+            else "Luteal Phase"
         )
+        energy_level = "High" if phase == "Ovulation Phase" else "Moderate"
+        day_label = f"Day {current_day}"
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader(phase)
+    st.write(day_label)
+
+    with st.spinner("Preparing thoughtful guidance…"):
+        suggestions, _ = get_suggestions(phase, energy_level, irregular)
 
     st.markdown(suggestions)
-
-    if not ai_used:
-        st.caption("Offline guidance shown due to AI availability.")
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.caption("This is not medical advice.")
 
-
+st.markdown("---")
+st.caption(
+    "CycleWise supports self-awareness, not perfection. "
+    "Every body is different — and that’s okay."
+)
