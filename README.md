@@ -82,13 +82,13 @@ Run commands - streamlit run main.py
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
+![alt text](<Screenshot 2026-02-14 at 10.23.45 AM.png>)
 *Add caption explaining what this shows*
 
-![Screenshot2](Add screenshot 2 here with proper name)
+![alt text](<Screenshot 2026-02-14 at 10.24.31 AM.png>)
 *Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
+![alt text](<Screenshot 2026-02-14 at 10.25.03 AM.png>)
 *Add caption explaining what this shows*
 
 #### Diagrams
@@ -115,9 +115,7 @@ Run commands - streamlit run main.py
 ![Schematic](Add your schematic diagram here)
 *Add caption explaining the schematic*
 
-#### Build Photos
-
-![Team](Add photo of your team here)
+![alt text](<WhatsApp Image 2026-02-14 at 10.28.08 AM.jpeg>)(Add photo of your team here)
 
 ![Components](Add photo of your components here)
 *List out all components shown*
@@ -360,7 +358,7 @@ python script.py -v --format json data.json
 ## Project Demo
 
 ### Video
-[Add your demo video link here - YouTube, Google Drive, etc.]
+[<video controls src="WhatsApp Video 2026-02-14 at 10.33.22 AM.mp4" title="Title"></video>]
 
 *Explain what the video demonstrates - key features, user flow, technical highlights*
 
@@ -373,25 +371,26 @@ python script.py -v --format json data.json
 
 If you used AI tools during development, document them here for transparency:
 
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
+**Tool Used:**  ChatGPT
 
 **Purpose:** [What you used it for]
-- Example: "Generated boilerplate React components"
-- Example: "Debugging assistance for async functions"
-- Example: "Code review and optimization suggestions"
+- Debugging and refining Python logic
+Improving UI/UX layout and accessibility
+Assisting with content structuring and documentation
+- 
 
 **Key Prompts Used:**
 - "Create a REST API endpoint for user authentication"
 - "Debug this async function that's causing race conditions"
 - "Optimize this database query for better performance"
 
-**Percentage of AI-generated code:** [Approximately X%]
+**Percentage of AI-generated code:** [25-30%]
 
 **Human Contributions:**
-- Architecture design and planning
-- Custom business logic implementation
-- Integration and testing
-- UI/UX design decisions
+- Problem identification and solution design
+Cycle logic and wellbeing framework
+UI/UX decisions and accessibility improvements
+Integration, testing, and deployment
 
 *Note: Proper documentation of AI usage demonstrates transparency and earns bonus points in evaluation!*
 
@@ -407,7 +406,7 @@ If you used AI tools during development, document them here for transparency:
 
 ## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 **Common License Options:**
 - MIT License (Permissive, widely used)
