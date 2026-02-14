@@ -2,27 +2,27 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# [CycleWise] 🎯
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: [LogicForge]
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: [Ann Rose Shaju] - [LBSITW]
+- Member 2: [Angela Fredy] - [LBSITW]
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project does]
+[CycleWise is a cycle-aware wellbeing and productivity app that adapts guidance to a user’s menstrual phase and energy levels. It combines a structured wellbeing framework with AI-powered personalization to support everyday planning.]
 
 ### The Problem statement
-[What problem are you solving?]
+[Many students and young women struggle with fluctuating energy, focus, and mood across their menstrual cycle, but most planning and productivity tools ignore these changes. As a result, users often feel unproductive or guilty without understanding that these shifts are normal and cyclical.]
 
 ### The Solution
-[How are you solving it?]
+[CycleWise bridges the gap between period tracking and daily planning by offering cycle-aware wellbeing and productivity guidance. It uses a structured framework and optional AI personalization to deliver actionable insights while remaining accessible and non-medical.]
 
 ---
 
@@ -31,25 +31,23 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: Python
+- Frameworks used: Streamlit
+- Libraries used: OpenAI SDK, datetime
+- Tools used: VS Code, Git, GitHub, Streamlit Community Cloud
 
 **For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
+- Not applicable (software-only project)
 
 ---
 
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1: Phase-based menstrual cycle insights
+- Feature 2: Personalized energy and focus guidance
+- Feature 3: AI-generated wellbeing suggestions with graceful fallback
+- Feature 4: Clean, accessible, and student-friendly UI
 
 ---
 
@@ -59,12 +57,13 @@ List the key features of your project:
 
 #### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+Installation commands -  pip install -r requirements.txt
 ```
 
 #### Run
 ```bash
-[Run commands - e.g., npm start, python app.py]
+Run commands - streamlit run main.py
+
 ```
 
 ### For Hardware:
